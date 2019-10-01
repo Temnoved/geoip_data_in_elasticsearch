@@ -9,6 +9,7 @@ random.seed(datetime.datetime.now())
 
 ELASTIC_HOST = "192.168.0.92"
 ELASTIC_PORT = 9200
+ELASTIC_FULL = 7
 
 def get_location_info(work_ip: str = ""):
     return requests.get(f"http://ip-api.com/json/{work_ip}").json()
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     es.indices.create(index="geoip", ignore=400)
     geoip_info_list = []
     elastic_index: int = 1
-    while (elastic_index <= 6):
+    while (elastic_index <= ELASTIC_FULL):
         random_ip_raw = [str(random.randrange(15, 220)) for _ in range(4)]
         current_ip = ".".join(random_ip_raw)
         current_geoip_info = get_location_info(current_ip)
